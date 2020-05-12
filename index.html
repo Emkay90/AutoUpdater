@@ -1,31 +1,8 @@
 
 <!DOCTYPE html>
 <head>
-  <title>Electron Auto Update Example</title>
-  <style>
-    body {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 20px;
-      font-family: sans-serif;
-      background-color: #eaeaea;
-      text-align: center;
-    }
-
-    #notification {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 200px;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-.hidden {
-  display: none;
-}
-  </style>
+  <title>Produktionsprogrammierer</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <h1>Electron Auto Update Example</h1>
@@ -47,12 +24,18 @@
 </button>
 </div>
 
+<button id="test" onClick="checkForUpdates()">CHECK</button>
+    <p>Hier klicken um auf Updates zu prüfen</p>
+
   <script>
     const { ipcRenderer } = require('electron');
     const version = document.getElementById('version');
     const message = document.getElementById('message');
     const notification = document.getElementById('notification');
     const restartButton = document.getElementById('restart-button');
+    const msg = document.getElementById('msg');
+    const closeButton = document.getElementById('close');
+    const remindLater = document.getElementById('close-button');
 
     function closeNotification() {
   notification.classList.add('hidden');
@@ -60,6 +43,13 @@
 function restartApp() {
   ipcRenderer.send('restart_app');
 }
+
+function checkForUpdates() {
+            ipcRenderer.send('check_for_updates');
+            console.log("auf updates wurde geprüft.");
+        }
+    
+      remindLater.addEventListener('click', closeNotification);
 
     ipcRenderer.on('update_available', () => {
   ipcRenderer.removeAllListeners('update_available');
@@ -69,10 +59,27 @@ function restartApp() {
 
 ipcRenderer.on('update_downloaded', () => {
   ipcRenderer.removeAllListeners('update_downloaded');
-  message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+  message.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version +  ' wird herruntergeladen...';
   restartButton.classList.remove('hidden');
   notification.classList.remove('hidden');
 });
+
+ipcRenderer.on('update_not_available', () => {
+            console.log("kein update verfügbar")
+        });
+
+ ipcRenderer.on('update_downloaded', () => {
+   ipcRenderer.removeAllListeners('update_downloaded');
+   msg.innerText = 'Update herruntergeladen. Wollen Sie jetzt installieren und neustarten?';
+  restartButton.classList.remove('hidden');
+   remindLater.classList.remove('hidden');
+   notification.classList.remove('hidden');
+   });
+
+   ipcRenderer.on('message', (event, arg) => {
+            console.log(arg);
+        });
+
 
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();

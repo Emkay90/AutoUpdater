@@ -1,7 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+
 
 let mainWindow;
+
+autoUpdater.logger = log;
+log.info('App startet');
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -16,21 +21,30 @@ function createWindow () {
     mainWindow = null;
   });
 
+  mainWindow.once('ready-to-show', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+    console.log("wurde ausgeführt")
+});
+
 
 }
 
-function autoUpdate () {
-    const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
-    const feed = `${server}/update/${process.platform}/${app.getVersion()}`
-    autoUpdater.setFeedURL(feed)
-    console.log('Suche alle 10 sek nach Updates')
-    setInterval(() => {
-      autoUpdater.checkForUpdatesAndNotify()
-     }, 10000)
+// function autoUpdate () {
+//     const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
+//     const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+//     autoUpdater.setFeedURL(feed)
+//     console.log('Suche alle 10 sek nach Updates')
+//     setInterval(() => {
+//       autoUpdater.checkForUpdatesAndNotify()
+//      }, 10000)
+// }
+
+function sendStatusToWindow(text) {
+  log.info(text);
+  mainWindow.webContents.send('message', text);
 }
 
 app.on('ready', () => {
-   
   createWindow();
 });
 
@@ -50,15 +64,22 @@ ipcMain.on('app_version', (event) => {
   event.sender.send('app_version', { version: app.getVersion() });
 });
 
-ipcMain.on('check_for_update', () => {
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});
+
+ipcMain.on('check_for_updates', () => {
     autoUpdate();
 })
 
-autoUpdater.on('update-available', (info) => {
-    sendStatustoWindow('Update verfuegbar')
-  
-  
-  });
+autoUpdater.on('update-available', (event) => {
+  mainWindow.webContents.send('update_available', { event });
+});
+
+autoUpdater.on('update-not-available', (event) => {
+  mainWindow.webContents.send('update_not_available');
+  sendStatusToWindow(event);
+});
 
   autoUpdater.on('update-downloaded', () => {
     mainWindow.webContents.send('update_downloaded');
