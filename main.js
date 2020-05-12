@@ -70,7 +70,7 @@ ipcMain.on('restart_app', () => {
 
 ipcMain.on('check_for_updates', () => {
   autoUpdater.checkForUpdatesAndNotify();
-})
+});
 
 autoUpdater.on('update-available', (event) => {
   mainWindow.webContents.send('update_available', { event });

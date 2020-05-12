@@ -39,6 +39,7 @@
     const remindLater = document.getElementById('close-button');
 
     function closeNotification() {
+      console.log("Schließen");
   notification.classList.add('hidden');
 }
 function restartApp() {
@@ -52,16 +53,18 @@ function checkForUpdates() {
     
       remindLater.addEventListener('click', closeNotification);
 
-    ipcRenderer.on('update_available', () => {
-  ipcRenderer.removeAllListeners('update_available');
-  message.innerText = 'A new update is available. Downloading now...';
-  notification.classList.remove('hidden');
-});
+      ipcRenderer.on('update_available', (event, arg) => {
+            ipcRenderer.removeAllListeners('update_available');
+            msg.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version +  ' wird herruntergeladen...';
+            notification.classList.remove('hidden');
+        });
+
 
 ipcRenderer.on('update_downloaded', () => {
   ipcRenderer.removeAllListeners('update_downloaded');
   message.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version +  ' wird herruntergeladen...';
   restartButton.classList.remove('hidden');
+  remindLater.classList.remove('hidden');
   notification.classList.remove('hidden');
 });
 
@@ -69,13 +72,7 @@ ipcRenderer.on('update_not_available', () => {
             console.log("kein update verfügbar")
         });
 
- ipcRenderer.on('update_downloaded', () => {
-   ipcRenderer.removeAllListeners('update_downloaded');
-   msg.innerText = 'Update herruntergeladen. Wollen Sie jetzt installieren und neustarten?';
-  restartButton.classList.remove('hidden');
-   remindLater.classList.remove('hidden');
-   notification.classList.remove('hidden');
-   });
+
 
    ipcRenderer.on('message', (event, arg) => {
             console.log(arg);
