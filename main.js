@@ -69,7 +69,7 @@ ipcMain.on('restart_app', () => {
 });
 
 ipcMain.on('check_for_updates', () => {
-    autoUpdate();
+  autoUpdater.checkForUpdatesAndNotify();
 })
 
 autoUpdater.on('update-available', (event) => {
