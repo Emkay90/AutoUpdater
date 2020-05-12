@@ -1,0 +1,28 @@
+{
+  "name": "autoupdaterfachgespraech",
+  "version": "1.0.0",
+  "description": "autoupdater Test",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Emkay90/AutoUpdater.git"
+  },
+  "author": "MK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Emkay90/AutoUpdater/issues"
+  },
+  "homepage": "https://github.com/Emkay90/AutoUpdater#readme",
+  "devDependencies": {
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0"
+  },
+  "dependencies": {
+    "electron-updater": "^4.3.1"
+  }
+}
