@@ -1,6 +1,6 @@
 {
   "name": "autoupdaterfachgespraech",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "autoupdater Test",
   "main": "main.js",
   "scripts": {
