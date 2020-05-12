@@ -82,9 +82,7 @@ ipcRenderer.on('update_not_available', () => {
         });
 
 
-ipcMain.on('restart_app', () => {
-  autoUpdater.quitAndInstall();
-});
+
 
 ipcRenderer.send('check_for_update')
 
