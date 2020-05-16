@@ -77,12 +77,12 @@ autoUpdater.on('update-available', (event) => {
   mainWindow.webContents.send('update_available', { event });
 });
 
-autoUpdater.on('update_not_available', (event) => {
+autoUpdater.on('update-not-available', (event) => {
   mainWindow.webContents.send('update_not_available');
   sendStatusToWindow(event);
   console.log("Kein Update verfügbar")
 });
 
-  autoUpdater.on('update-downloaded', () => {
+  autoUpdater.on('update_downloaded', () => {
     mainWindow.webContents.send('update_downloaded');
   });
