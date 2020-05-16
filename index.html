@@ -24,12 +24,12 @@
     </div>
   </div>
 
-  <h1>Fachgespraech</h1>
-  <h2>Vorfuehrung</h2>
+  <h1>Fachgespräch</h1>
+  <h2>Vorführung</h2>
   <p id="version"></p>
 
-  <button id="test" onClick="checkForUpdates()">CHECK</button>
-  <p>Hier klicken um auf Updates zu prüfen</p>
+  <!-- <button id="test" onClick="checkForUpdates()">CHECK</button>
+  <p>Hier klicken um auf Updates zu prüfen</p> -->
 
   <script>
     const { ipcRenderer, remote } = require('electron');
@@ -50,13 +50,14 @@
     }
 
     function checkForUpdates() {
-      ipcRenderer.send('check_for_updates');
+      // ipcRenderer.send('check_for_updates');
       console.log("auf Updates wurde geprüft.");
     }
 
     remindLater.addEventListener('click', closeNotification);
 
     ipcRenderer.send('app_version');
+    ipcRenderer.send('check_for_updates');
 
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');

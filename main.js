@@ -29,15 +29,15 @@ function createWindow () {
 
 }
 
-// function autoUpdate () {
-//     const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
-//     const feed = `${server}/update/${process.platform}/${app.getVersion()}`
-//     autoUpdater.setFeedURL(feed)
-//     console.log('Suche alle 10 sek nach Updates')
-//     setInterval(() => {
-//       autoUpdater.checkForUpdatesAndNotify()
-//      }, 10000)
-// }
+ function autoUpdate () {
+     const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
+     const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+     autoUpdater.setFeedURL(feed)
+     console.log('Suche alle 10 sek nach Updates')
+     setInterval(() => {
+       autoUpdater.checkForUpdatesAndNotify()
+      }, 10000)
+ }
 
 function sendStatusToWindow(text) {
   log.info(text);
@@ -69,7 +69,8 @@ ipcMain.on('restart_app', () => {
 });
 
 ipcMain.on('check_for_updates', () => {
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdate();
+  // autoUpdater.checkForUpdatesAndNotify();
 });
 
 
