@@ -62,7 +62,7 @@
       version.innerText = 'Version ' + arg.version;
     });
 
-    ipcRenderer.on('update-available', (event, arg) => {
+    ipcRenderer.on('update_available', (event, arg) => {
       ipcRenderer.removeAllListeners('update_available');
       msg.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version + ' wird herruntergeladen...';
       notification.classList.remove('hidden');
@@ -74,7 +74,7 @@
 
 
 
-    ipcRenderer.on('update-downloaded', () => {
+    ipcRenderer.on('update_downloaded', () => {
       ipcRenderer.removeAllListeners('update_downloaded');
       msg.innerText = 'Update heruntergeladen. Wollen Sie jetzt installieren und neustarten?';
       restartButton.classList.remove('hidden');
@@ -90,5 +90,4 @@
     
   </script>
   <script src="./fontawesome.js" data-auto-replace-svg="nest"></script>
-
 </body>

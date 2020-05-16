@@ -8,7 +8,7 @@ let mainWindow;
 autoUpdater.logger = log;
 log.info('App startet');
 
-function createWindow() {
+function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -24,7 +24,7 @@ function createWindow() {
   mainWindow.once('ready-to-show', () => {
     autoUpdater.checkForUpdatesAndNotify();
     console.log("wurde ausgeführt")
-  });
+});
 
 
 }
@@ -83,6 +83,6 @@ autoUpdater.on('update-not-available', (event) => {
   console.log("Kein Update verfügbar")
 });
 
-autoUpdater.on('update-downloaded', () => {
-  mainWindow.webContents.send('update_downloaded');
-});
+  autoUpdater.on('update-downloaded', () => {
+    mainWindow.webContents.send('update_downloaded');
+  });
