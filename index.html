@@ -57,6 +57,8 @@
     remindLater.addEventListener('click', closeNotification);
 
     ipcRenderer.send('app_version');
+
+    ipcRenderer.send('check_for_updates');
     
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');

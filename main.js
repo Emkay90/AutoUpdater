@@ -32,11 +32,15 @@ function createWindow () {
 
 }
 
-//  function autoUpdate () {
+  function autoUpdate () {
+  autoUpdater.setFeedURL(feed)
+  setInterval(() => {
+    autoUpdater.checkForUpdatesAndNotify()
+   }, 10000)
 
       console.log('Suche alle 10 sek nach Updates')
   
-//  }
+  }
 
 function sendStatusToWindow(text) {
   log.info(text);
@@ -44,11 +48,8 @@ function sendStatusToWindow(text) {
 }
 
 app.on('ready', () => {
-  autoUpdater.setFeedURL(feed)
-setInterval(() => {
-  autoUpdater.checkForUpdatesAndNotify()
- }, 10000)
   createWindow();
+  
 });
 
 app.on('window-all-closed', function () {
@@ -74,9 +75,10 @@ ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
 
-// ipcMain.on('check_for_updates', () => {
+ ipcMain.on('check_for_updates', () => {
+  autoUpdate();
 //   autoUpdater.checkForUpdatesAndNotify();
-// });
+ });
 
 
 
