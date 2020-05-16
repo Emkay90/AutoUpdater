@@ -55,11 +55,23 @@
 
     remindLater.addEventListener('click', closeNotification);
 
+    ipcRenderer.send('app_version');
+
+    ipcRenderer.on('app_version', (event, arg) => {
+      ipcRenderer.removeAllListeners('app_version');
+      version.innerText = 'Version ' + arg.version;
+    });
+
     ipcRenderer.on('update-available', (event, arg) => {
       ipcRenderer.removeAllListeners('update_available');
       msg.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version + ' wird herruntergeladen...';
       notification.classList.remove('hidden');
     });
+
+    ipcRenderer.on('update_not_available', () => {
+      console.log("kein update verfügbar")
+    });
+
 
 
     ipcRenderer.on('update-downloaded', () => {
@@ -70,25 +82,11 @@
       notification.classList.remove('hidden');
     });
 
-    ipcRenderer.on('update_not_available', () => {
-      console.log("kein update verfügbar")
-    });
-
-
-
+   
     ipcRenderer.on('message', (event, arg) => {
       console.log(arg);
     });
 
-
-
-
-    ipcRenderer.send('check_for_update')
-
-    ipcRenderer.send('app_version');
-    ipcRenderer.on('app_version', (event, arg) => {
-      ipcRenderer.removeAllListeners('app_version');
-      version.innerText = 'Version ' + arg.version;
-    });
+    
   </script>
 </body>
