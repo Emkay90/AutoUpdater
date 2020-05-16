@@ -1,32 +1,33 @@
-
 <!DOCTYPE html>
+
 <head>
   <title>Produktionsprogrammierer</title>
   <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
   <h1>Das ist der 2. Test</h1>
   <p id="version"></p>
   <div id="notification" class="hidden">
     <p id="close"><span style="margin-left:96%"><i class="fas fa-times"></i></span></p>
     <div class="message">
-        <p id="icon"><span class="icon"><i class="fas fa-info-circle"></i></span></p>
-        <p id="msg" class="msg"><strong>&nbsp;Update ist vefügbar!</strong></p>
+      <p id="icon"><span class="icon"><i class="fas fa-info-circle"></i></span></p>
+      <p id="msg" class="msg"><strong>&nbsp;Update ist vefügbar!</strong></p>
     </div>
-  <div id="buttons">
+    <div id="buttons">
       <button id="restart-button" onClick="restartApp()" class="hidden">
-    <span style="color: #a5dc86;"><i class="fas fa-check"></i>
-    <strong>&nbsp;jetzt installieren</strong></span>
-</button>
-<button id="close-button" onClick="closeNotification()" class="hidden">
-    <span style="color: #ea5d5d;"><i class="fas fa-times"></i>
-    <strong>&nbsp;später erinnern</strong></span>
-</button>
-</div>
-</div>
+        <span style="color: #a5dc86;"><i class="fas fa-check"></i>
+          <strong>&nbsp;jetzt installieren</strong></span>
+      </button>
+      <button id="close-button" onClick="closeNotification()" class="hidden">
+        <span style="color: #ea5d5d;"><i class="fas fa-times"></i>
+          <strong>&nbsp;später erinnern</strong></span>
+      </button>
+    </div>
+  </div>
 
-<button id="test" onClick="checkForUpdates()">CHECK</button>
-    <p>Hier klicken um auf Updates zu prüfen</p>
+  <button id="test" onClick="checkForUpdates()">CHECK</button>
+  <p>Hier klicken um auf Updates zu prüfen</p>
 
   <script>
     const { ipcRenderer } = require('electron');
@@ -40,48 +41,48 @@
 
     function closeNotification() {
       console.log("Schließen");
-  notification.classList.add('hidden');
-}
-function restartApp() {
-  ipcRenderer.send('restart_app');
-}
+      notification.classList.add('hidden');
+    }
+    function restartApp() {
+      ipcRenderer.send('restart_app');
+    }
 
-function checkForUpdates() {
-            ipcRenderer.send('check_for_updates');
-            console.log("auf Updates wurde geprüft.");
-        }
-    
-      remindLater.addEventListener('click', closeNotification);
+    function checkForUpdates() {
+      ipcRenderer.send('check_for_updates');
+      console.log("auf Updates wurde geprüft.");
+    }
 
-      ipcRenderer.on('update-available', (event, arg) => {
-            ipcRenderer.removeAllListeners('update_available');
-            msg.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version +  ' wird herruntergeladen...';
-            notification.classList.remove('hidden');
-        });
+    remindLater.addEventListener('click', closeNotification);
 
-
-ipcRenderer.on('update-downloaded', () => {
-  ipcRenderer.removeAllListeners('update_downloaded');
-  msg.innerText = 'Update heruntergeladen. Wollen Sie jetzt installieren und neustarten?';
-  restartButton.classList.remove('hidden');
-  remindLater.classList.remove('hidden');
-  notification.classList.remove('hidden');
-});
-
-ipcRenderer.on('update_not_available', () => {
-            console.log("kein update verfügbar")
-        });
+    ipcRenderer.on('update-available', (event, arg) => {
+      ipcRenderer.removeAllListeners('update_available');
+      msg.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version + ' wird herruntergeladen...';
+      notification.classList.remove('hidden');
+    });
 
 
+    ipcRenderer.on('update-downloaded', () => {
+      ipcRenderer.removeAllListeners('update_downloaded');
+      msg.innerText = 'Update heruntergeladen. Wollen Sie jetzt installieren und neustarten?';
+      restartButton.classList.remove('hidden');
+      remindLater.classList.remove('hidden');
+      notification.classList.remove('hidden');
+    });
 
-   ipcRenderer.on('message', (event, arg) => {
-            console.log(arg);
-        });
+    ipcRenderer.on('update_not_available', () => {
+      console.log("kein update verfügbar")
+    });
 
 
 
+    ipcRenderer.on('message', (event, arg) => {
+      console.log(arg);
+    });
 
-ipcRenderer.send('check_for_update')
+
+
+
+    ipcRenderer.send('check_for_update')
 
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
