@@ -28,8 +28,8 @@
   <h2>Vorführung</h2>
   <p id="version"></p>
 
-  <!-- <button id="test" onClick="checkForUpdates()">CHECK</button>
-  <p>Hier klicken um auf Updates zu prüfen</p>  -->
+  <button id="test" onClick="checkForUpdates()">CHECK</button>
+  <p>Hier klicken um auf Updates zu prüfen</p>
 
   <script>
     const { ipcRenderer, remote } = require('electron');
@@ -58,8 +58,7 @@
 
     ipcRenderer.send('app_version');
 
-    ipcRenderer.send('check_for_updates');
-    
+
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
       version.innerText = 'Version ' + arg.version;
@@ -85,12 +84,12 @@
       notification.classList.remove('hidden');
     });
 
-   
+
     ipcRenderer.on('message', (event, arg) => {
       console.log(arg);
     });
 
-    
+
   </script>
   <script src="./fontawesome.js" data-auto-replace-svg="nest"></script>
 </body>
