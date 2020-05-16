@@ -44,6 +44,10 @@ function sendStatusToWindow(text) {
 }
 
 app.on('ready', () => {
+  autoUpdater.setFeedURL(feed)
+setInterval(() => {
+  autoUpdater.checkForUpdatesAndNotify()
+ }, 10000)
   createWindow();
 });
 
@@ -59,6 +63,9 @@ app.on('activate', function () {
   }
 });
 
+
+
+
 ipcMain.on('app_version', (event) => {
   event.sender.send('app_version', { version: app.getVersion() });
 });
@@ -71,13 +78,10 @@ ipcMain.on('restart_app', () => {
 //   autoUpdater.checkForUpdatesAndNotify();
 // });
 
-autoUpdater.setFeedURL(feed)
-setInterval(() => {
-  autoUpdater.checkForUpdatesAndNotify()
- }, 10000)
 
 
 autoUpdater.on('update-available', (event) => {
+  console.log("Update verfügbar");
   mainWindow.webContents.send('update_available', { event });
 });
 
@@ -88,5 +92,6 @@ autoUpdater.on('update-not-available', (event) => {
 });
 
   autoUpdater.on('update-downloaded', () => {
+    console.log("Update heruntergeladen");
     mainWindow.webContents.send('update_downloaded');
   });
