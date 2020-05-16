@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
+const feed = `${server}/update/${process.platform}/${app.getVersion()}`
 
 
 let mainWindow;
@@ -30,8 +32,6 @@ function createWindow () {
 }
 
  function autoUpdate () {
-     const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
-     const feed = `${server}/update/${process.platform}/${app.getVersion()}`
      autoUpdater.setFeedURL(feed)
      console.log('Suche alle 10 sek nach Updates')
      setInterval(() => {
@@ -68,8 +68,9 @@ ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
 
-ipcMain.on('check_for_updates', () => {
+ipcMain.on('check_for_updates', function() {
   autoUpdate();
+  console.log("Prüfe auf Updates")
   // autoUpdater.checkForUpdatesAndNotify();
 });
 
