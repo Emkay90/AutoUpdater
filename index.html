@@ -30,7 +30,7 @@
   <p>Hier klicken um auf Updates zu prüfen</p>
 
   <script>
-    const { ipcRenderer } = require('electron');
+    const { ipcRenderer, remote } = require('electron');
     const version = document.getElementById('version');
     const message = document.getElementById('message');
     const notification = document.getElementById('notification');
