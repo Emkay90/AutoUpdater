@@ -48,21 +48,21 @@ function restartApp() {
 
 function checkForUpdates() {
             ipcRenderer.send('check_for_updates');
-            console.log("auf updates wurde geprüft.");
+            console.log("auf Updates wurde geprüft.");
         }
     
       remindLater.addEventListener('click', closeNotification);
 
-      ipcRenderer.on('update_available', (event, arg) => {
+      ipcRenderer.on('update-available', (event, arg) => {
             ipcRenderer.removeAllListeners('update_available');
             msg.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version +  ' wird herruntergeladen...';
             notification.classList.remove('hidden');
         });
 
 
-ipcRenderer.on('update_downloaded', () => {
+ipcRenderer.on('update-downloaded', () => {
   ipcRenderer.removeAllListeners('update_downloaded');
-  message.innerText = 'Ein Update wurde gefunden. Version ' + arg.event.version +  ' wird herruntergeladen...';
+  msg.innerText = 'Update heruntergeladen. Wollen Sie jetzt installieren und neustarten?';
   restartButton.classList.remove('hidden');
   remindLater.classList.remove('hidden');
   notification.classList.remove('hidden');
