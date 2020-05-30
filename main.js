@@ -53,7 +53,8 @@ app.on('ready', () => {
   createWindow();
   setInterval(() => {
     autoUpdater.checkForUpdatesAndNotify()
-  }, 10000)
+    console.log('Suche alle 60 sek nach Update')
+  }, 60000)
   
 
 });
@@ -81,13 +82,13 @@ ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
 
-ipcMain.on('check_for_updates', () => {
-  setInterval(() => {
-    autoUpdater.checkForUpdatesAndNotify()
-  }, 10000)
-  console.log('Suche alle 10 sek nach Updates')
+// ipcMain.on('check_for_updates', () => {
+//   setInterval(() => {
+//     autoUpdater.checkForUpdatesAndNotify()
+//   }, 10000)
+//   console.log('Suche alle 10 sek nach Updates')
   
-});
+// });
 
 
 
