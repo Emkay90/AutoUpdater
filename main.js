@@ -42,12 +42,12 @@ function autoUpdate() {
   console.log('Suche alle 10 sek nach Updates')
   log.info('Suche alle 10 sek nach Updates')
 
-}
+};
 
 function sendStatusToWindow(text) {
   log.info(text);
   mainWindow.webContents.send('message', text);
-}
+};
 
 app.on('ready', () => {
   createWindow();
@@ -80,6 +80,7 @@ ipcMain.on('restart_app', () => {
 
 ipcMain.on('check_for_updates', () => {
   autoUpdate();
+  console.log('Suche alle 10 sek nach Updates')
 });
 
 

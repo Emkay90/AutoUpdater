@@ -57,7 +57,10 @@
     remindLater.addEventListener('click', closeNotification);
 
     ipcRenderer.send('app_version');
-    ipcRenderer.send('check_for_updates');
+
+    ipcRenderer.on('check_for_updates', (event, arg) => {
+      console.log('Suche alle 10 sek nach Updates')
+    });
 
 
     ipcRenderer.on('app_version', (event, arg) => {
@@ -65,9 +68,6 @@
       version.innerText = 'Version ' + arg.version;
     });
 
-    ipcRenderer.on('check_for_updates', (event, arg) =>{
-      ipcRenderer.removeAllListeners('check_for_updates');
-    });
 
     ipcRenderer.on('update_available', (event, arg) => {
       ipcRenderer.removeAllListeners('update_available');
