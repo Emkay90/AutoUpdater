@@ -49,19 +49,24 @@
       ipcRenderer.send('restart_app');
     }
 
-    function checkForUpdates() {
-      ipcRenderer.send('check_for_updates');
-      console.log("auf Updates wurde geprüft.");
-    }
+    // function checkForUpdates() {
+    //   ipcRenderer.send('check_for_updates');
+    //   console.log("auf Updates wurde geprüft.");
+    // }
 
     remindLater.addEventListener('click', closeNotification);
 
     ipcRenderer.send('app_version');
+    ipcRenderer.send('check_for_updates');
 
 
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
       version.innerText = 'Version ' + arg.version;
+    });
+
+    ipcRenderer.on('check_for_updates', (event, arg) =>{
+      ipcRenderer.removeAllListeners('check_for_updates');
     });
 
     ipcRenderer.on('update_available', (event, arg) => {
