@@ -31,18 +31,18 @@ function createWindow() {
 
 }
 
-function autoUpdate() {
-  const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
-  const feed = `${server}/update/${process.platform}/${app.getVersion()}`
-  autoUpdater.setFeedURL(feed)
-  setInterval(() => {
-    autoUpdater.checkForUpdatesAndNotify()
-  }, 10000)
+// function autoUpdate() {
+//   const server = 'git+https://github.com/Emkay90/AutoUpdater.git';
+//   const feed = `${server}/update/${process.platform}/${app.getVersion()}`
+//   autoUpdater.setFeedURL(feed)
+//   setInterval(() => {
+//     autoUpdater.checkForUpdatesAndNotify()
+//   }, 10000)
 
-  console.log('Suche alle 10 sek nach Updates')
-  log.info('Suche alle 10 sek nach Updates')
+//   console.log('Suche alle 10 sek nach Updates')
+//   log.info('Suche alle 10 sek nach Updates')
 
-};
+// };
 
 function sendStatusToWindow(text) {
   log.info(text);
@@ -51,7 +51,10 @@ function sendStatusToWindow(text) {
 
 app.on('ready', () => {
   createWindow();
-  autoUpdate();
+  setInterval(() => {
+    autoUpdater.checkForUpdatesAndNotify()
+  }, 10000)
+  
 
 });
 
@@ -79,8 +82,11 @@ ipcMain.on('restart_app', () => {
 });
 
 ipcMain.on('check_for_updates', () => {
-  autoUpdate();
+  setInterval(() => {
+    autoUpdater.checkForUpdatesAndNotify()
+  }, 10000)
   console.log('Suche alle 10 sek nach Updates')
+  
 });
 
 
